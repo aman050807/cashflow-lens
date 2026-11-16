@@ -1,0 +1,14 @@
+{
+  "name": "cashflow-lens",
+  "version": "0.1.0",
+  "description": "Pure, dependency-free cashflow and investment scenario calculations with explicit assumptions.",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {".": {"types": "./src/index.d.ts", "default": "./src/index.js"}},
+  "files": ["src", "README.md", "LICENSE", "CHANGELOG.md"],
+  "scripts": {"test": "node --test", "test:coverage": "node --test --experimental-test-coverage", "prepublishOnly": "npm test"},
+  "engines": {"node": ">=20"},
+  "keywords": ["cashflow", "roi", "cagr", "investment", "comparison"],
+  "author": "V M Aman Sharma",
+  "license": "MIT"
+}
