@@ -10,7 +10,7 @@ analysis. All examples are fictional, not investment advice or expected returns.
 ## Install
 
 ```sh
-npm install cashflow-lens
+npm install @aman050807/cashflow-lens
 ```
 
 Requires Node.js 20+. No runtime dependencies, network calls, build step or side effects.
@@ -18,8 +18,8 @@ Requires Node.js 20+. No runtime dependencies, network calls, build step or side
 ## Quick start
 
 ```js
-const { projectScenario } = require('cashflow-lens');
-// ESM: import { projectScenario } from 'cashflow-lens';
+const { projectScenario } = require('@aman050807/cashflow-lens');
+// ESM: import { projectScenario } from '@aman050807/cashflow-lens';
 
 const result = projectScenario({
   initialInvestment: 10000,
@@ -39,7 +39,7 @@ console.log(result.capitalCagrRate);  // about 0.039447 = 3.9447% per year
 ## Compare scenarios
 
 ```js
-const { compareScenarios } = require('cashflow-lens');
+const { compareScenarios } = require('@aman050807/cashflow-lens');
 
 const ranked = compareScenarios([
   { id: 'income-first', initialInvestment: 10000, annualIncome: 800, years: 3 },

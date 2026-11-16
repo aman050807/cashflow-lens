@@ -1,5 +1,5 @@
 {
-  "name": "cashflow-lens",
+  "name": "@aman050807/cashflow-lens",
   "version": "0.1.0",
   "description": "Pure, dependency-free cashflow and investment scenario calculations with explicit assumptions.",
   "main": "./src/index.js",
