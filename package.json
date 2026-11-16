@@ -4,11 +4,41 @@
   "description": "Pure, dependency-free cashflow and investment scenario calculations with explicit assumptions.",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
-  "exports": {".": {"types": "./src/index.d.ts", "default": "./src/index.js"}},
-  "files": ["src", "README.md", "LICENSE", "CHANGELOG.md"],
-  "scripts": {"test": "node --test", "test:coverage": "node --test --experimental-test-coverage", "prepublishOnly": "npm test"},
-  "engines": {"node": ">=20"},
-  "keywords": ["cashflow", "roi", "cagr", "investment", "comparison"],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
+    "prepublishOnly": "npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "cashflow",
+    "roi",
+    "cagr",
+    "investment",
+    "comparison"
+  ],
   "author": "V M Aman Sharma",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aman050807/cashflow-lens.git"
+  },
+  "homepage": "https://github.com/aman050807/cashflow-lens#readme",
+  "bugs": {
+    "url": "https://github.com/aman050807/cashflow-lens/issues"
+  }
 }
