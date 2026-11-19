@@ -1,6 +1,6 @@
 {
   "name": "@aman050807/cashflow-lens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pure, dependency-free cashflow and investment scenario calculations with explicit assumptions.",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -10,6 +10,7 @@
       "default": "./src/index.js"
     }
   },
+  "sideEffects": false,
   "files": [
     "src",
     "README.md",

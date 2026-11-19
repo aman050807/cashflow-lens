@@ -91,8 +91,54 @@ function compareScenarios(scenarios) {
   }).sort((a, b) => b.totalReturnRate - a.totalReturnRate);
 }
 
+function localeOf(value) {
+  if (value === undefined) return 'en-US';
+  if (typeof value !== 'string' || value.trim() === '') {
+    throw new TypeError('locale must be a non-empty BCP 47 string, e.g. "en-IN"');
+  }
+  return value;
+}
+
+/**
+ * Format a money amount for display, e.g. "\u20B91,00,000.00" in en-IN/INR.
+ * Display only: the result is a string for humans and never feeds calculations.
+ */
+function formatMoney(amount, options = {}) {
+  finite(amount, 'amount');
+  if (options === null || typeof options !== 'object' || Array.isArray(options)) {
+    throw new TypeError('options must be an object');
+  }
+  if (options.currency === undefined) throw new TypeError('options.currency is required');
+  if (typeof options.currency !== 'string') throw new TypeError('currency must be a string');
+  if (!/^[A-Za-z]{3}$/.test(options.currency)) {
+    throw new RangeError('currency must be a 3-letter ISO 4217 code, e.g. "INR"');
+  }
+  return new Intl.NumberFormat(localeOf(options.locale),
+    { style: 'currency', currency: options.currency.toUpperCase() }).format(amount);
+}
+
+/**
+ * Format a decimal rate as a percentage for display, e.g. 0.06 -> "6%".
+ * Display only: rounding applies to the string, not to stored values.
+ */
+function formatRate(rate, options = {}) {
+  finite(rate, 'rate');
+  if (options === null || typeof options !== 'object' || Array.isArray(options)) {
+    throw new TypeError('options must be an object');
+  }
+  const digits = options.maximumFractionDigits === undefined ? 2 : options.maximumFractionDigits;
+  if (typeof digits !== 'number' || !Number.isInteger(digits)) {
+    throw new TypeError('maximumFractionDigits must be an integer');
+  }
+  if (digits < 0 || digits > 20) throw new RangeError('maximumFractionDigits must be between 0 and 20');
+  return new Intl.NumberFormat(localeOf(options.locale),
+    { style: 'percent', maximumFractionDigits: digits }).format(rate);
+}
+
 exports.cashYield = cashYield;
 exports.totalReturn = totalReturn;
 exports.cagr = cagr;
 exports.projectScenario = projectScenario;
 exports.compareScenarios = compareScenarios;
+exports.formatMoney = formatMoney;
+exports.formatRate = formatRate;

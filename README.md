@@ -1,5 +1,10 @@
 # cashflow-lens
 
+[![CI](https://github.com/aman050807/cashflow-lens/actions/workflows/test.yml/badge.svg)](https://github.com/aman050807/cashflow-lens/actions/workflows/test.yml)
+[![npm version](https://img.shields.io/npm/v/@aman050807/cashflow-lens.svg)](https://www.npmjs.com/package/@aman050807/cashflow-lens)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/@aman050807/cashflow-lens)](https://bundlephobia.com/package/@aman050807/cashflow-lens)
+[![license](https://img.shields.io/npm/l/@aman050807/cashflow-lens)](https://github.com/aman050807/cashflow-lens/blob/main/LICENSE)
+
 Compare cashflow scenarios without mixing rental income with capital growth.
 A dependency-free JavaScript/Node.js library with CommonJS, ESM named imports,
 TypeScript declarations and strict runtime validation.
@@ -112,6 +117,36 @@ Returned fields:
 Accepts an array of the options above plus a unique `id`. Returns ranked projection
 objects. Duplicate ids throw `RangeError`; missing/blank/non-string ids throw `TypeError`.
 
+### `formatMoney(amount, options)`
+
+Formats a money amount for display with `Intl.NumberFormat`. `options.currency`
+is required (3-letter ISO 4217 code); `options.locale` defaults to `en-US`.
+Use `en-IN` for Indian digit grouping.
+
+```js
+formatMoney(100000, { locale: 'en-IN', currency: 'INR' }); // "₹1,00,000.00"
+formatMoney(1000, { locale: 'en-US', currency: 'USD' });    // "$1,000.00"
+```
+
+### `formatRate(rate, options)`
+
+Formats a decimal rate as a percentage. `options.maximumFractionDigits`
+defaults to `2` (integer 0-20); `options.locale` defaults to `en-US`.
+
+```js
+formatRate(0.06);    // "6%"
+formatRate(0.03945); // "3.95%"
+```
+
+Both helpers are **display only**. They format output for humans; every
+calculation stays an unrounded IEEE-754 number exactly as documented above.
+They change nothing about financial accuracy and are never used internally.
+
+## Browser playground
+
+A zero-build playground that ranks scenarios against the published package
+lives in the demo repo: [cashflow-lens-demo/playground](https://github.com/aman050807/cashflow-lens-demo/tree/main/playground).
+
 ## Model assumptions and limits
 
 - Initial investment equals initial asset value. Acquisition costs are not modeled.
@@ -138,8 +173,8 @@ npm pack --dry-run
 ```
 
 Tests cover hand-calculated examples, losses, zero final values, fractional years,
-invalid input, overflow, stable sorting, scale invariance, non-mutation and both
-module loading styles. CI runs on Node.js 20, 22 and 24.
+invalid input, overflow, stable sorting, scale invariance, non-mutation, display
+formatting and both module loading styles. CI runs on Node.js 20, 22 and 24.
 
 ## Versioning
 

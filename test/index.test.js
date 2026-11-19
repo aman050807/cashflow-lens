@@ -1,7 +1,7 @@
 'use strict';
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { cashYield, totalReturn, cagr, projectScenario, compareScenarios } = require('..');
+const { cashYield, totalReturn, cagr, projectScenario, compareScenarios, formatMoney, formatRate } = require('..');
 const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-10, `${actual} != ${expected}`);
 const base = { initialInvestment: 10000, annualIncome: 800, annualExpenses: 200, years: 2, annualGrowthRate: 0.05, exitFeeRate: 0.02 };
 
@@ -78,4 +78,30 @@ test('equivalent scenarios are scale invariant across a range of amounts', () =>
 });
 test('package supports ESM named imports as well as require', async () => {
   const esm=await import('../src/index.js'); assert.equal(esm.cashYield(100,10),0.1);
+  assert.equal(typeof esm.formatMoney,'function'); assert.equal(typeof esm.formatRate,'function');
+});
+test('formatMoney formats currency with locale grouping', () => {
+  assert.equal(formatMoney(1000, { locale:'en-US', currency:'USD' }), '$1,000.00');
+  assert.equal(formatMoney(-1234.567, { locale:'en-US', currency:'usd' }), '-$1,234.57');
+});
+test('formatMoney supports Indian grouping and rupee formatting', () => {
+  const s = formatMoney(100000, { locale:'en-IN', currency:'INR' });
+  assert.ok(s.includes('1,00,000.00'), s); assert.ok(s.includes('\u20B9'), s);
+});
+test('formatRate renders decimal rates as percentages', () => {
+  assert.equal(formatRate(0.06), '6%');
+  assert.equal(formatRate(0.06528), '6.53%');
+  assert.equal(formatRate(-0.1, { maximumFractionDigits:0 }), '-10%');
+});
+test('formatting helpers validate types and ranges like the calculators', () => {
+  assert.throws(()=>formatMoney(NaN, { currency:'USD' }), TypeError);
+  assert.throws(()=>formatMoney(100), TypeError);
+  assert.throws(()=>formatMoney(100, { currency:5 }), TypeError);
+  assert.throws(()=>formatMoney(100, { currency:'US' }), RangeError);
+  assert.throws(()=>formatMoney(100, 'USD'), TypeError);
+  assert.throws(()=>formatMoney(100, { locale:5, currency:'USD' }), TypeError);
+  assert.throws(()=>formatRate('6'), TypeError);
+  assert.throws(()=>formatRate(0.06, { maximumFractionDigits:1.5 }), TypeError);
+  assert.throws(()=>formatRate(0.06, { maximumFractionDigits:25 }), RangeError);
+  assert.throws(()=>formatRate(0.06, null), TypeError);
 });
